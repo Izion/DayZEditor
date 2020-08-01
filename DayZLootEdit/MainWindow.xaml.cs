@@ -40,14 +40,8 @@ namespace DayZLootEdit
 
                 LootList.ItemsSource = LootTable.Loot;
 
-                LootList.IsEnabled = true;
                 SaveBtn.IsEnabled = true;
             }
-        }
-
-        private void LootList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            LootPercBox.IsEnabled = LootList.SelectedItems.Count > 0;
         }
 
         private void PercBtn_Click(object sender, RoutedEventArgs e)
@@ -62,9 +56,6 @@ namespace DayZLootEdit
             }
 
             LootList.Items.Refresh();
-
-            PercBox.Text = "0";
-            UpdatePercValue();
         }
 
         private void PercSilder_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -107,6 +98,66 @@ namespace DayZLootEdit
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             LootTable.SaveFile();
+        }
+
+        private void BtnExit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void TbFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string filterText = TbFilter.Text;
+
+            if(!string.IsNullOrEmpty(filterText) && filterText.Length > 2)
+            {
+                LootTable.Filter(filterText);
+                LootList.ItemsSource = LootTable.FilteredLoot;
+            }
+            else
+            {
+                LootList.ItemsSource = LootTable.Loot;
+            }
+        }
+
+        private void MinBtn_Click(object sender, RoutedEventArgs e)
+        {
+            int percentage = 0;
+            bool ok = int.TryParse(PercBox.Text.Replace("%", ""), out percentage);
+            if (!ok) return;
+
+            foreach (LootType loot in LootList.SelectedItems)
+            {
+                loot.SetMin(percentage);
+            }
+
+            LootList.Items.Refresh();
+        }
+
+        private void BothBtn_Click(object sender, RoutedEventArgs e)
+        {
+            int percentage = 0;
+            bool ok = int.TryParse(PercBox.Text.Replace("%", ""), out percentage);
+            if (!ok) return;
+
+            foreach (LootType loot in LootList.SelectedItems)
+            {
+                loot.SetMin(percentage);
+                loot.SetNominal(percentage);
+            }
+
+            LootList.Items.Refresh();
+        }
+
+        private void BtnDisable_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (LootType loot in LootList.SelectedItems)
+            {
+                loot.SetMin(0);
+                loot.SetNominal(0);
+            }
+
+            LootList.Items.Refresh();
         }
     }
 }

@@ -15,6 +15,7 @@ namespace DayZLootEdit
         public XElement XML { get; private set; }
 
         public ObservableCollection<LootType> Loot { get; } = new ObservableCollection<LootType>();
+        public ObservableCollection<LootType> FilteredLoot = new ObservableCollection<LootType>();
 
 
         public LootTable(string file)
@@ -55,5 +56,6 @@ namespace DayZLootEdit
             }
         }
 
+        public void Filter(string filterText) => FilteredLoot = new ObservableCollection<LootType>(Loot.Where(x => x.Name.ToLower().Contains(filterText.ToLower())));
     }
 }

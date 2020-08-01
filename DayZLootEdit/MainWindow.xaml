@@ -16,17 +16,34 @@
             <RowDefinition Height="285*"/>
             <RowDefinition Height="134*"/>
         </Grid.RowDefinitions>
-        <DataGrid x:Name="LootList" Margin="10,60,10,10" Grid.RowSpan="2" ItemsSource="{Binding LootTable.Loot}" IsEnabled="False" SelectionChanged="LootList_SelectionChanged" Grid.ColumnSpan="3">
+        <Menu Grid.ColumnSpan="3" Height="20" VerticalAlignment="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open" Click="LoadBtn_Click"/>
+                <MenuItem Name="SaveBtn" Header="_Save" Click="SaveBtn_Click" IsEnabled="False" />
+                <Separator />
+                <MenuItem x:Name="BtnExit" Header="_Exit" Click="BtnExit_Click" />
+            </MenuItem>
+        </Menu>
+        <ToolBarPanel x:Name="LootPercBox" Grid.ColumnSpan="3" Margin="0,25,0,0" Height="30" VerticalAlignment="Top" Background="{x:Null}">
+            <ToolBar Background="{x:Null}" ToolBarTray.IsLocked="True">
+                <Label>Filter:</Label>
+                <TextBox x:Name="TbFilter" Width="200" TextChanged="TbFilter_TextChanged" BorderBrush="#FFC9C9C9" Margin="1,0,10,0"></TextBox>
+                <Separator />
+                <Label Margin="10,0,0,0">Bulk Edit :</Label>
+                <TextBox x:Name="PercBox" Margin="0" TextWrapping="Wrap" Text="100%" Width="50" RenderTransformOrigin="0.5,0.5" LostFocus="PercBox_LostFocus" KeyUp="PercBox_KeyUp" GotFocus="PercBox_GotFocus" BorderBrush="#FFC9C9C9"/>
+                <Slider x:Name="PercSilder" Margin="0" Maximum="400" TickFrequency="50" TickPlacement="BottomRight" SmallChange="1" Value="100" ValueChanged="PercSilder_ValueChanged" Width="200"/>
+                <Button x:Name="PercBtn" Content="Set Nominal" HorizontalAlignment="Left" Margin="0,0,0,4" VerticalAlignment="Stretch"  Background="#FFE4E4E4" Padding="5" Click="PercBtn_Click"/>
+                <Button x:Name="MinBtn" Content="Set Min" HorizontalAlignment="Left" Margin="0,0,0,4" VerticalAlignment="Stretch"  Background="#FFE4E4E4" Padding="5" Click="MinBtn_Click"/>
+                <Button x:Name="BothBtn" Content="Set Both" HorizontalAlignment="Left" Margin="0,0,10,4" VerticalAlignment="Stretch"  Background="#FFE4E4E4" Padding="5" Click="BothBtn_Click"/>
+                <Separator />
+                <Button x:Name="BtnDisable" Background="#FFE4E4E4" Padding="5" VerticalAlignment="Stretch" Margin="10,0,0,0" Click="BtnDisable_Click">
+                    Zero (Disable)
+                </Button>
+            </ToolBar>
+        </ToolBarPanel>
+        <DataGrid x:Name="LootList" Margin="10,60,10,10" Grid.RowSpan="2" ItemsSource="{Binding LootTable.Loot}" Grid.ColumnSpan="3">
         </DataGrid>
-        <Button x:Name="LoadBtn" Content="Load" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="LoadBtn_Click"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="55,10,0,0" VerticalAlignment="Top" Width="40" Height="40"/>
-        <Button x:Name="SaveBtn" Content="Save" HorizontalAlignment="Left" Margin="55,10,0,0" VerticalAlignment="Top" Width="40" Height="40" IsEnabled="False" Click="SaveBtn_Click"/>
-        <DockPanel x:Name="LootPercBox" HorizontalAlignment="Left" Height="55" LastChildFill="False" Margin="31,0,0,0" VerticalAlignment="Top" Width="362" RenderTransformOrigin="3.24,0.757" IsEnabled="False" Grid.Column="1">
-            <Label x:Name="PercLbl" Content="Nominal Percentage:" Margin="0" VerticalAlignment="Top" Height="28" DockPanel.Dock="Top" RenderTransformOrigin="-0.092,0.379" HorizontalAlignment="Left" Width="119"/>
-            <TextBox x:Name="PercBox" Margin="122,-24,0,32" TextWrapping="Wrap" Text="100%" Width="50" RenderTransformOrigin="0.5,0.5" LostFocus="PercBox_LostFocus" KeyUp="PercBox_KeyUp" GotFocus="PercBox_GotFocus"/>
-            <Slider x:Name="PercSilder" Margin="-172,0,45,0" Maximum="400" TickFrequency="50" TickPlacement="BottomRight" SmallChange="1" Value="100" DockPanel.Dock="Top" ValueChanged="PercSilder_ValueChanged"/>
-            <Button x:Name="PercBtn" Content="Set" HorizontalAlignment="Left" Margin="0,-42,0,0" VerticalAlignment="Top" Width="40" Height="40" DockPanel.Dock="Right" Click="PercBtn_Click"/>
-        </DockPanel>
+
         <Label Content="© icelane.net 2018" Grid.Column="2" HorizontalAlignment="Right" Margin="0,10,0,0" VerticalAlignment="Top" Width="116" Cursor=""/>
 
     </Grid>
